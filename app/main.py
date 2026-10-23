@@ -25,26 +25,19 @@ app = FastAPI(
 app.include_router(landmark_router)
 app.include_router(routes_router)
 
-# Local development origins plus an optional deployed frontend origin.
 allowed_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://safeher-frontend-gules.vercel.app",
 ]
-
-frontend_origins = os.getenv("SAFEHER_FRONTEND_ORIGIN", "")
-allowed_origins.extend(
-    origin.strip()
-    for origin in frontend_origins.split(",")
-    if origin.strip()
-)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=list(set(allowed_origins)),
-    allow_methods=["GET"],
+    allow_origins=allowed_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "OPTIONS"],
     allow_headers=["*"],
 )
-
 
 
 
