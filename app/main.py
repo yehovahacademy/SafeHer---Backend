@@ -8,6 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.data.landmarks import LANDMARKS
+from app.router.landmark_router import router as landmarks_router
+from app.router.routes import router as routes_router
 
 
 app = FastAPI(
@@ -18,6 +20,10 @@ app = FastAPI(
     ),
     version="1.0.0",
 )
+
+
+app.include_router(landmarks_router)
+app.include_router(routes_router)
 
 # Local development origins plus an optional deployed frontend origin.
 allowed_origins = [
